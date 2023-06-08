@@ -1,0 +1,80 @@
+key,en,zh
+badLogin,Wrong username or password,用户名或密码错误
+badRegister,Registration failed,注册失败
+best,Best,最佳
+bio,Bio,简介
+block,Block,屏蔽
+blocking,Blocking,已屏蔽
+changePassword,Change password,更改密码
+changeUsername,Change username,更改用户名
+chat,Chat,私信
+chats,Chats,私信
+choosePhoto,Choose photo,选择照片
+chooseVideo,Choose video,选择视频
+comment,Comment,评论
+comments,Comments,评论
+content,Content,内容
+createComment,Create comment,评论
+createPost,Create Post,创建动态
+creatingPost,Creating post,动态创建中
+postCreateSuccess,Post created successfully,动态创建成功
+done,Done,完成
+dupUsername,Username already exists,用户名已存在
+enableLocationServices,Please enable location services,请开启定位服务
+follow,Follow,关注
+followers,Followers,关注我
+following,Following,已关注
+followOnly,Only show followed users,仅显示已关注用户
+gettingLocation,Getting location,定位获取中
+giveLocationPermission,Please give location permissions,请授予定位权限
+hot,Hot,热门
+keywords,Keywords,关键词
+language,Language,语言
+like,Like,点赞
+likers,Likers,点赞的用户
+likes,Likes,点赞
+loggingIn,Logging in,登录中
+login,Login,登录
+loginEmpty,Username and password cannot be empty,用户名和密码不能为空
+me,Me,我的
+new,New,最新
+newChat,New chat,新私信
+newPassword,New password,新密码
+newUsername,New username,新用户名
+notifications,Notifications,通知
+notUploadingLocation,Not uploading location,不上传位置信息
+oldPassword,Old password,旧密码
+password,Password,密码
+posts,Posts,动态
+pwChangeFailed,Password change failed,密码修改失败
+pwChangeSuccess,Password changed successfully,密码修改成功
+random,Random,随机
+register,Register,注册
+registering,Registering,注册中
+reset,Reset,重置
+save,Save,收藏
+saved,Saved,收藏
+saveLogin,Save login details,保存登录信息
+savers,Savers,收藏的用户
+saves,Saves,收藏
+search,Search,搜索
+searchIn,Search in,搜索范围
+settings,Settings,设置
+sort,Sort,排序
+sortMethod,Sort method,排序方法
+tags,Tags,标签
+takePhoto,Take photo,拍摄照片
+takeVideo,Take video,拍摄视频
+title,Title,标题
+unblock,Unblock,取消屏蔽
+unfollow,Unfollow,取消关注
+updateApp,Update app,更新应用
+uploadLocation,Upload current location,上传当前位置
+uploadMedia,Upload media,上传媒体
+user,User,用户
+username,Username,用户名
+usernameChangeFailed,Username change failed,用户名修改失败
+usernameChangeSuccess,Username changed successfully,用户名修改成功
+userNotFound,User not found,用户不存在
+logout,Log out,退出
+enterPostContent,Enter post content here...,在此输入动态内容...
