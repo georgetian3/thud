@@ -115,9 +115,18 @@ mime_types = MimeTypes()
 async def get_media(media_id: int):
     print('getting media')
     path = content_service.media_id_to_path(media_id)
-    media_type = magic.from_file(path, mime=True)
+    try:
+        media_type = magic.from_file(path, mime=True)
+        if media_type is None:
+            media_type = 'octet-stream'
+        ext = mime_types.guess_extension(media_type)
+        if ext is None:
+            ext = '.' + media_type.split('/')
+    except:
+        media_type = 'octet-stream'
+        ext = ''
+
     print('media type:', media_type)
-    ext = mime_types.guess_extension(media_type)
     print('extension:', ext)
     filename = path.with_suffix(ext).name
     try:
