@@ -115,6 +115,7 @@ mime_types = MimeTypes()
 async def get_media(media_id: int):
     path = content_service.media_id_to_path(media_id)
     media_type = magic.from_file(path, mime=True)
+    print('media type:', media_type)
     filename = path.with_suffix(mime_types.guess_extension(media_type)).name
     try:
         return await download_file(path, filename=filename, media_type=media_type)
