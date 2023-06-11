@@ -113,6 +113,7 @@ async def put_media(
 mime_types = MimeTypes()
 @router.api_route('/media/{media_id}', methods=['GET', 'HEAD'])
 async def get_media(media_id: int):
+    print('getting media')
     path = content_service.media_id_to_path(media_id)
     media_type = magic.from_file(path, mime=True)
     print('media type:', media_type)
