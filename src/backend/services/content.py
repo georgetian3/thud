@@ -172,7 +172,6 @@ class ContentService:
         
         user_followees = {} if user_followees is None else set(user_followees)
         user_blocking = {} if user_blocking is None else set(user_blocking)
-        user = await self.user_service.get_user(id=user_id)
 
         filtered_posts = []
 
@@ -205,7 +204,7 @@ class ContentService:
                 query.search_content and any(keyword in quill_delta_to_plaintext(post.content).lower() for keyword in keywords) or
                 query.search_comments and any(keyword in comment.content.lower() for keyword in keywords for comment in post.comments) or
                 query.search_username and any([
-                    keyword in user.username.lower()
+                    keyword in (await self.user_service.get_user(id=post.creator)).username.lower()
                     for keyword in keywords
                 ])
             ):

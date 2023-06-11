@@ -159,6 +159,12 @@ class ThudState with ChangeNotifier {
       await _authApi.logoutLogoutPost();
     } on ApiException {}
     activeUser = null;
+    _token = null;
+    posts.clear();
+    users.clear();
+    usernames.clear();
+    chats.clear();
+    notifications.clear();
     await _secureStorage.delete(key: _credentialsKey);
   }
 

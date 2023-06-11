@@ -23,6 +23,7 @@ def main():
     args = parse_args()
     if args.docs:
         app.generate_docs()
+        return
     if args.reset_db:
         app.reset_db()
     if args.gen:
