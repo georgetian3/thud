@@ -119,9 +119,11 @@ async def get_media(media_id: int):
         media_type = magic.from_file(path, mime=True)
         if media_type is None:
             media_type = 'octet-stream'
-        ext = mime_types.guess_extension(media_type)
-        if ext is None:
-            ext = '.' + media_type.split('/')
+            ext = ''
+        else:
+            ext = mime_types.guess_extension(media_type)
+            if ext is None:
+                ext = '.' + media_type.split('/')[1]
     except:
         media_type = 'octet-stream'
         ext = ''
