@@ -1,0 +1,10 @@
+__pycache__
+.pytest_cache
+config.yaml
+*.db
+openapi*
+*.log
+*.jar
+*.json
+thud_data
+.venv

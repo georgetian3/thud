@@ -1,0 +1,17 @@
+aiofiles
+email_validator
+jose
+passlib
+python_jose
+PyYAML
+fastapi
+SQLAlchemy
+aiosmtplib
+uvicorn
+gunicorn
+python-multipart
+aiosqlite
+python-magic
+python-magic-win64
+httpx
+requests
