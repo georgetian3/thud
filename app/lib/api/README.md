@@ -71,7 +71,6 @@ Class | Method | HTTP request | Description
 *ContentApi* | [**createCommentPostsPostIdCommentsPut**](doc//ContentApi.md#createcommentpostspostidcommentsput) | **PUT** /posts/{post_id}/comments | Create Comment
 *ContentApi* | [**createPostPostsPut**](doc//ContentApi.md#createpostpostsput) | **PUT** /posts | Create Post
 *ContentApi* | [**getMediaMediaMediaIdGet**](doc//ContentApi.md#getmediamediamediaidget) | **GET** /media/{media_id} | Get Media
-*ContentApi* | [**getMediaMediaMediaIdGet_0**](doc//ContentApi.md#getmediamediamediaidget_0) | **HEAD** /media/{media_id} | Get Media
 *ContentApi* | [**getPostPostsPostIdGet**](doc//ContentApi.md#getpostpostspostidget) | **GET** /posts/{post_id} | Get Post
 *ContentApi* | [**likePostsPostIdLikePatch**](doc//ContentApi.md#likepostspostidlikepatch) | **PATCH** /posts/{post_id}/like | Like
 *ContentApi* | [**putMediaMediaMediaIdPut**](doc//ContentApi.md#putmediamediamediaidput) | **PUT** /media/{media_id} | Put Media
@@ -96,9 +95,6 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [BodyChangeProfilePictureUsersMeProfilePicturePatch](doc//BodyChangeProfilePictureUsersMeProfilePicturePatch.md)
- - [BodyLoginLoginPost](doc//BodyLoginLoginPost.md)
- - [BodyPutMediaMediaMediaIdPut](doc//BodyPutMediaMediaMediaIdPut.md)
  - [ChangeBioRequest](doc//ChangeBioRequest.md)
  - [ChangePasswordRequest](doc//ChangePasswordRequest.md)
  - [ChangeUsernameRequest](doc//ChangeUsernameRequest.md)

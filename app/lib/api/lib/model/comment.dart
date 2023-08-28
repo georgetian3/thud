@@ -108,7 +108,7 @@ class Comment {
         }
       }
     }
-    return result.toList(growable: true);
+    return result.toList(growable: growable);
   }
 
   static Map<String, Comment> mapFromJson(dynamic json) {
@@ -132,7 +132,7 @@ class Comment {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = Comment.listFromJson(entry.value, growable: true,);
+        map[entry.key] = Comment.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

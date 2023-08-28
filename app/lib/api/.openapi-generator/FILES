@@ -4,9 +4,6 @@
 README.md
 analysis_options.yaml
 doc/AuthApi.md
-doc/BodyChangeProfilePictureUsersMeProfilePicturePatch.md
-doc/BodyLoginLoginPost.md
-doc/BodyPutMediaMediaMediaIdPut.md
 doc/ChangeBioRequest.md
 doc/ChangePasswordRequest.md
 doc/ChangeUsernameRequest.md
@@ -47,9 +44,6 @@ lib/auth/authentication.dart
 lib/auth/http_basic_auth.dart
 lib/auth/http_bearer_auth.dart
 lib/auth/oauth.dart
-lib/model/body_change_profile_picture_users_me_profile_picture_patch.dart
-lib/model/body_login_login_post.dart
-lib/model/body_put_media_media_media_id_put.dart
 lib/model/change_bio_request.dart
 lib/model/change_password_request.dart
 lib/model/change_username_request.dart
@@ -73,9 +67,6 @@ lib/model/user.dart
 lib/model/validation_error.dart
 pubspec.yaml
 test/auth_api_test.dart
-test/body_change_profile_picture_users_me_profile_picture_patch_test.dart
-test/body_login_login_post_test.dart
-test/body_put_media_media_media_id_put_test.dart
 test/change_bio_request_test.dart
 test/change_password_request_test.dart
 test/change_username_request_test.dart

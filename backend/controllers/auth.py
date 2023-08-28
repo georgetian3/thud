@@ -1,15 +1,19 @@
+"""
+Auth controller
+"""
+
 from datetime import datetime, timedelta
-from fastapi import Depends, HTTPException, status, Header
+
+from fastapi import Depends, HTTPException, status
 from fastapi.routing import APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import JWTError, jwt
+from jose import jwt
 
-from .documentedresponse import JDR, create_documentation
-
-from schemas.base import ID
-import schemas.user
-import schemas.auth
+import models.auth
+import models.user
 import services.user
+from controllers.documentedresponse import JDR, create_documentation
+from models.base import ID
 
 router = APIRouter()
 
@@ -19,8 +23,8 @@ config = {}
 user_service: services.user.UserService = None
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
-def create_access_token(user_id: ID) -> schemas.auth.Token:
-    return schemas.auth.Token(
+def create_access_token(user_id: ID) -> models.auth.Token:
+    return models.auth.Token(
         access_token=jwt.encode(
             {
                 'sub': str(user_id),
@@ -41,23 +45,6 @@ def get_active_user(token: str = Depends(oauth2_scheme)) -> ID:
         detail='Could not validate credentials',
         headers={'WWW-Authenticate': 'Bearer'},
     )
-    # forbidden_exception = HTTPException(
-    #     status_code=status.HTTP_403_FORBIDDEN,
-    #     detail='Forbidden',
-    #     headers={'WWW-Authenticate': 'Bearer'},
-    # )
-    # blacklisted = False
-    # to_delete = []
-    # for blacklisted_token in blacklist:
-    #     if (datetime.utcnow() - blacklist[blacklisted_token]) > config['auth']['access_token_expire_minutes']:
-    #         to_delete.append(token)
-    #     elif not blacklisted and blacklisted_token == token:
-    #         blacklisted = True
-    # for token_to_delete in to_delete:
-    #     del blacklist[token_to_delete]
-
-    # if blacklisted:
-    #     raise forbidden_exception
 
     try:
         payload = jwt.decode(token, config['auth']['key'], algorithms=config['auth']['algorithm'])
@@ -67,17 +54,12 @@ def get_active_user(token: str = Depends(oauth2_scheme)) -> ID:
     except:
         raise credentials_exception
 
-    # user = await services.user.get_user(user_id)
-
-    # if not user:
-    #     raise credentials_exception
-
     return user_id
 
 
 ################################################################################
 
-login_success_jdr = JDR(status.HTTP_200_OK, 'Login successful', schemas.auth.Token)
+login_success_jdr = JDR(status.HTTP_200_OK, 'Login successful', models.auth.Token)
 incorrect_credentials_jdr = JDR(status.HTTP_401_UNAUTHORIZED, 'Username or password incorrect')
 unverified_jdr = JDR(status.HTTP_403_FORBIDDEN, 'Verify email first')
 
@@ -98,27 +80,21 @@ async def login(login_request: OAuth2PasswordRequestForm = Depends()):
 
 ################################################################################
 
-
 logout_sucess_jdr = JDR(status.HTTP_204_NO_CONTENT, 'Logout successful')
 @router.post('/logout', **create_documentation([logout_sucess_jdr]))
 async def logout(active_user: ID = Depends(get_active_user)):
-    #blacklist[token] = datetime.utcnow()
-    ...
+    """Logout"""
+    _ = active_user
 
 ################################################################################
-
 
 register_successful_jdr = JDR(status.HTTP_201_CREATED, 'Registration successful')
 register_failed_jdr = JDR(status.HTTP_400_BAD_REQUEST, 'Registration failed')
 @router.put('/register', **create_documentation([register_successful_jdr, register_failed_jdr]))
-async def register(register_request: schemas.user.RegisterRequest):
+async def register(register_request: models.user.RegisterRequest):
+    """Register"""
     user_response = await user_service.create_user(register_request)
     if user_response is None:
         return register_failed_jdr.response()
     return register_successful_jdr.response()
 
-################################################################################
-
-# @router.get('/verify/{token}')
-# async def verify(token: str):
-#     pass

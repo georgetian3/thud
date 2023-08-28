@@ -12,7 +12,6 @@ Method | HTTP request | Description
 [**createCommentPostsPostIdCommentsPut**](ContentApi.md#createcommentpostspostidcommentsput) | **PUT** /posts/{post_id}/comments | Create Comment
 [**createPostPostsPut**](ContentApi.md#createpostpostsput) | **PUT** /posts | Create Post
 [**getMediaMediaMediaIdGet**](ContentApi.md#getmediamediamediaidget) | **GET** /media/{media_id} | Get Media
-[**getMediaMediaMediaIdGet_0**](ContentApi.md#getmediamediamediaidget_0) | **HEAD** /media/{media_id} | Get Media
 [**getPostPostsPostIdGet**](ContentApi.md#getpostpostspostidget) | **GET** /posts/{post_id} | Get Post
 [**likePostsPostIdLikePatch**](ContentApi.md#likepostspostidlikepatch) | **PATCH** /posts/{post_id}/like | Like
 [**putMediaMediaMediaIdPut**](ContentApi.md#putmediamediamediaidput) | **PUT** /media/{media_id} | Put Media
@@ -127,47 +126,6 @@ try {
     print(result);
 } catch (e) {
     print('Exception when calling ContentApi->getMediaMediaMediaIdGet: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mediaId** | [**Object**](.md)|  | 
-
-### Return type
-
-[**Object**](Object.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getMediaMediaMediaIdGet_0**
-> Object getMediaMediaMediaIdGet_0(mediaId)
-
-Get Media
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-
-final api_instance = ContentApi();
-final mediaId = ; // Object | 
-
-try {
-    final result = api_instance.getMediaMediaMediaIdGet_0(mediaId);
-    print(result);
-} catch (e) {
-    print('Exception when calling ContentApi->getMediaMediaMediaIdGet_0: $e\n');
 }
 ```
 

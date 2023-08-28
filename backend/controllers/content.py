@@ -1,8 +1,8 @@
 from fastapi import Depends, APIRouter, UploadFile, status
 from controllers.documentedresponse import JDR, create_documentation, success_response, failed_response, not_found_jdr
-import schemas.content
+import models.content
 import services.content
-from schemas.base import ID
+from models.base import ID
 from utils.filetransfer import upload_file, download_file
 from controllers.auth import get_active_user
 from mimetypes import MimeTypes
@@ -19,7 +19,7 @@ content_service: services.content.ContentService = None
 
 
 
-get_post_success = JDR(status.HTTP_200_OK, 'Got post successfully', schemas.content.Post)
+get_post_success = JDR(status.HTTP_200_OK, 'Got post successfully', models.content.Post)
 
 @router.get('/posts/{post_id}', **create_documentation([get_post_success, not_found_jdr]))
 async def get_post(post_id: ID):
@@ -29,11 +29,11 @@ async def get_post(post_id: ID):
     return get_post_success.response(post)
 
 
-create_post_success = JDR(status.HTTP_201_CREATED, 'Post created successfully', schemas.content.CreatePostSuccessResponse)
+create_post_success = JDR(status.HTTP_201_CREATED, 'Post created successfully', models.content.CreatePostSuccessResponse)
 create_post_failed = JDR(status.HTTP_400_BAD_REQUEST, 'Post creation failed')
 @router.put('/posts', **create_documentation([create_post_success, create_post_failed]))
 async def create_post(
-    new_post: schemas.content.CreatePostRequest,
+    new_post: models.content.CreatePostRequest,
     active_user: ID = Depends(get_active_user),
 ):
     res = await content_service.create_post(active_user, new_post)
@@ -41,25 +41,25 @@ async def create_post(
     if not isinstance(res, tuple):
         return create_post_failed.response()
     return create_post_success.response(
-        schemas.content.CreatePostSuccessResponse(
+        models.content.CreatePostSuccessResponse(
             post=post_id,
             media=media_ids
         )
     )
 
 
-search_post_success = JDR(status.HTTP_200_OK, 'Search successful', list[schemas.content.Post])
+search_post_success = JDR(status.HTTP_200_OK, 'Search successful', list[models.content.Post])
 @router.post('/posts/', **create_documentation([search_post_success]))
 async def search_posts(
-    query: schemas.content.SearchContentRequest,
+    query: models.content.SearchContentRequest,
     active_user: ID = Depends(get_active_user)
 ):
     return await content_service.search_posts(active_user, query)
     
 
-create_comment_success = JDR(status.HTTP_201_CREATED, 'Create comment successful', schemas.content.Comment)
+create_comment_success = JDR(status.HTTP_201_CREATED, 'Create comment successful', models.content.Comment)
 @router.put('/posts/{post_id}/comments', **create_documentation([create_comment_success, failed_response]))
-async def create_comment(post_id: ID, comment: schemas.content.CreateCommentRequest, active_user: ID = Depends(get_active_user)):
+async def create_comment(post_id: ID, comment: models.content.CreateCommentRequest, active_user: ID = Depends(get_active_user)):
     comment = await content_service.create_comment(active_user, post_id, comment)
     if comment is None:
         return failed_response.response()
@@ -111,7 +111,7 @@ async def put_media(
 
 
 mime_types = MimeTypes()
-@router.api_route('/media/{media_id}', methods=['GET', 'HEAD'])
+@router.api_route('/media/{media_id}', methods=['GET'])
 async def get_media(media_id: int):
     path = content_service.media_id_to_path(media_id)
     try:

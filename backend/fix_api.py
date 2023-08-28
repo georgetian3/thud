@@ -42,14 +42,14 @@ def api_helper(text: str) -> str:
     return text
 
 files = {
-    '../app/lib/api/lib/model/location_inner.dart': location_inner,
-    '../app/lib/api/lib/model/body_put_media_media_media_id_put.dart': put_media,
-    '../app/lib/api/lib/model/body_change_profile_picture_users_me_profile_picture_patch.dart': profile_picture,
-    '../app/lib/api/lib/model/user.dart': user,
-    '../app/lib/api/lib/model/post.dart': post,
-    '../app/lib/api/lib/model/comment.dart': comment,
-    '../app/lib/api/lib/api_client.dart': api_client,
-    '../app/lib/api/lib/api_helper.dart': api_helper,
+    # '../app/lib/api/lib/model/location_inner.dart': location_inner,
+    # '../app/lib/api/lib/model/body_put_media_media_media_id_put.dart': put_media,
+    # '../app/lib/api/lib/model/body_change_profile_picture_users_me_profile_picture_patch.dart': profile_picture,
+    # '../app/lib/api/lib/model/user.dart': user,
+    # '../app/lib/api/lib/model/post.dart': post,
+    # '../app/lib/api/lib/model/comment.dart': comment,
+    # '../app/lib/api/lib/api_client.dart': api_client,
+    # '../app/lib/api/lib/api_helper.dart': api_helper,
 }
 
 for file in files:

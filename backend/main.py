@@ -1,11 +1,9 @@
-import uvicorn
-from controllers.app import App
-
-
 import argparse
 from test import generate_sample_data
 
+import uvicorn
 
+from controllers.app import App
 
 app = App()
 api = app.api

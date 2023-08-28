@@ -1,9 +1,8 @@
 import models.chat
 import models.db
 from models.base import *
-import schemas.chat
+import models.chat
 from datetime import datetime
-from schemas.base import ID
 from services.notifications import NotificationService
 
 class ChatService:
@@ -13,7 +12,7 @@ class ChatService:
         self.db = db
         self.notification_service = notification_service
 
-    async def send_message(self, user: ID, new_message: schemas.chat.SendMessageRequest):
+    async def send_message(self, user: ID, new_message: models.chat.SendMessageRequest):
         message = models.chat.Message(
             sender=user,
             receiver=new_message.receiver,
@@ -31,7 +30,7 @@ class ChatService:
         )
         
 
-    async def get_messages(self, user: ID) -> schemas.chat.Chat:
+    async def get_messages(self, user: ID) -> models.chat.Chat:
         stmt = select(models.chat.Message).where(
             or_(
                 models.chat.Message.sender == user,
@@ -41,9 +40,9 @@ class ChatService:
         async with self.db.get_session() as session:
             messages = (await session.scalars(stmt)).all()
 
-        return schemas.chat.Chat(
+        return models.chat.Chat(
             messages=[
-                schemas.chat.Message(
+                models.chat.Message(
                     sender=message.sender,
                     receiver=message.receiver,
                     message=message.message,

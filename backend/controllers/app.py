@@ -1,13 +1,9 @@
 import json
 
 from fastapi import FastAPI
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
-
-from starlette.exceptions import HTTPException as StarletteHTTPException
 
 
 import services.content

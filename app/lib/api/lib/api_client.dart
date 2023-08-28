@@ -145,7 +145,7 @@ class ApiClient {
 
   Future<dynamic> deserializeAsync(String json, String targetType, {bool growable = false,}) async =>
     // ignore: deprecated_member_use_from_same_package
-    deserialize(json, targetType, growable: true);
+    deserialize(json, targetType, growable: growable);
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use deserializeAsync() instead.')
   dynamic deserialize(String json, String targetType, {bool growable = false,}) {
@@ -155,7 +155,7 @@ class ApiClient {
     // If the expected target type is String, nothing to do...
     return targetType == 'String'
       ? json
-      : _deserialize(jsonDecode(json), targetType, growable: true);
+      : _deserialize(jsonDecode(json), targetType, growable: growable);
   }
 
   // ignore: deprecated_member_use_from_same_package
@@ -181,12 +181,6 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
-        case 'BodyChangeProfilePictureUsersMeProfilePicturePatch':
-          return BodyChangeProfilePictureUsersMeProfilePicturePatch.fromJson(value);
-        case 'BodyLoginLoginPost':
-          return BodyLoginLoginPost.fromJson(value);
-        case 'BodyPutMediaMediaMediaIdPut':
-          return BodyPutMediaMediaMediaIdPut.fromJson(value);
         case 'ChangeBioRequest':
           return ChangeBioRequest.fromJson(value);
         case 'ChangePasswordRequest':
@@ -233,18 +227,18 @@ class ApiClient {
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {
             return value
-              .map<dynamic>((dynamic v) => _deserialize(v, match, growable: true,))
-              .toList(growable: true);
+              .map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,))
+              .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)?.group(1)) != null) {
             return value
-              .map<dynamic>((dynamic v) => _deserialize(v, match, growable: true,))
+              .map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,))
               .toSet();
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)?.group(1)) != null) {
             return Map<String, dynamic>.fromIterables(
               value.keys.cast<String>(),
-              value.values.map<dynamic>((dynamic v) => _deserialize(v, match, growable: true,)),
+              value.values.map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,)),
             );
           }
       }

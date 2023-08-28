@@ -1,18 +1,14 @@
 import pathlib
-import schemas.user
-from schemas.base import ID
+import models.user
+from models.base import ID
 from passlib.hash import argon2
-from datetime import datetime, timedelta
+from datetime import datetime
 from models.base import *
 import models.db
 import models.user
 import models.content
 from enum import Enum
-import secrets
-from utils.emailsender import send_html_email
 from services.notifications import NotificationService
-
-Verification = Enum('Verification', ['NONE', 'EMAIL', 'TSINGHUA'])
 
 class UserService:
 
@@ -107,23 +103,7 @@ class UserService:
             await session.execute(stmt)
             await session.commit()
 
-    async def verify_user(self, token: str):
-        pass
-
-    async def availability(self, username: schemas.user.Username=None, email: schemas.user.Email=None) -> dict:
-        res = {}
-        async with self.db.get_session() as session:
-            if username:
-                res['username'] = bool((await session.execute(
-                    select(models.user.User).where(models.user.User.username == username)
-                )).scalar())
-            if email:
-                res['email'] = bool((await session.execute(
-                    select(models.user.User).where(models.user.User.email == email)
-                )).scalar())
-        return res
-        
-    async def create_user(self, register_info: schemas.user.RegisterRequest) -> schemas.user.User | None:
+    async def create_user(self, register_info: models.user.RegisterRequest) -> models.user.User | None:
 
         user = models.user.User(
             username=register_info.username,
@@ -132,55 +112,17 @@ class UserService:
             bio='[{"insert":"\\n"}]',
         )
 
-        # delete_expired = delete(models.user.User).where(
-        #     models.user.User.verification == 0 and
-        #     models.user.User.id in select(models.user.VerificationToken).where(
-        #         models.user.VerificationToken.expires >= datetime.utcnow()
-        #     )
-        # )
-
-        # token = secrets.token_urlsafe(64)
-
-        # print(delete_expired)
-
         async with self.db.get_session() as session:
-            # delete expired account creation requests
-            # await session.execute(delete_expired)
-            # await session.commit()
 
             session.add(user)
             try:
                 await session.commit()
             except IntegrityError as e:
                 return None
-                # return await self.availability(
-                #     register_info.username,
-                # )
-                #duplicate_field = str(e.orig).rsplit('.', 1)[1]
-                #return duplicate_field
+
             await session.refresh(user)
-            # session.add(models.user.VerificationToken(
-            #     user_id=user.id,
-            #     token=token,
-            #     expires=datetime.utcnow() + timedelta(minutes=15)
-            # ))
 
-            # await session.commit()
-
-        # resp = await send_html_email(
-        #     sender=self.config['email']['address'],
-        #     recipient=[register_info.email],
-        #     subject='THUD verification token',
-        #     content=token,
-        #     hostname=self.config['email']['hostname'],
-        #     port=self.config['email']['port'],
-        #     username=self.config['email']['username'],
-        #     password=self.config['email']['password']
-        # )
-
-        # print('email:', resp)
-
-        return schemas.user.User(
+        return models.user.User(
             id=user.id,
             username=user.username,
             date_joined=user.date_joined,
@@ -198,13 +140,13 @@ class UserService:
         Returns the ID of `username`, None if account with `username` does not exist
         """
 
-    # async def search_users(self, user_id: int) -> list[schemas.user.User]:
+    # async def search_users(self, user_id: int) -> list[models.user.User]:
     #     users = []
     #     stmt = select(models.user.User)
     #     async with self.db.get_session() as session:
     #         users = await session.scalars(stmt)
 
-    async def get_user(self, id: ID=None, username: str=None) -> schemas.user.User | None:
+    async def get_user(self, id: ID=None, username: str=None) -> models.user.User | None:
         if id is not None:
             stmt = select(models.user.User).where(models.user.User.id == id)
         elif username is not None:
@@ -234,7 +176,7 @@ class UserService:
             followees = (await session.scalars(followees_stmt)).all()
             blocking = (await session.scalars(blocking_stmt)).all()
 
-        user = schemas.user.User(
+        user = models.user.User(
             id=user.id,
             username=user.username,
             date_joined=user.date_joined,

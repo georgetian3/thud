@@ -1,9 +1,9 @@
 from fastapi import status, Depends, UploadFile
 from fastapi.routing import APIRouter
 import services.user
-import schemas.user
-import schemas.auth
-from schemas.base import ID
+import models.user
+import models.auth
+from models.base import ID
 from .documentedresponse import create_documentation, JDR, success_response, failed_response
 from controllers.auth import get_active_user, create_access_token
 from utils.filetransfer import upload_file
@@ -12,7 +12,7 @@ config = {}
 router = APIRouter()
 user_service: services.user.UserService = None
 
-get_me_successful = JDR(status.HTTP_200_OK, 'Get me successful', schemas.user.User)
+get_me_successful = JDR(status.HTTP_200_OK, 'Get me successful', models.user.User)
 @router.get('/me', **create_documentation([get_me_successful]))
 async def get_me(active_user: ID = Depends(get_active_user)):
     me = await user_service.get_user(id=active_user)
@@ -20,7 +20,7 @@ async def get_me(active_user: ID = Depends(get_active_user)):
     
 
 
-get_user_successful = JDR(status.HTTP_200_OK, 'Get user successful', schemas.user.User)
+get_user_successful = JDR(status.HTTP_200_OK, 'Get user successful', models.user.User)
 user_not_found = JDR(status.HTTP_404_NOT_FOUND, 'User not found')
 @router.get('/id/{user_id}', **create_documentation([get_user_successful, user_not_found]))
 async def get_user_id(user_id: ID, active_user: ID = Depends(get_active_user)):
@@ -56,30 +56,30 @@ async def unblock(user_id: ID, active_user: ID = Depends(get_active_user)):
 
 
 @router.patch('/me/username', **create_documentation([success_response, failed_response]))
-async def change_username(username: schemas.user.ChangeUsernameRequest, active_user: ID = Depends(get_active_user)):
+async def change_username(username: models.user.ChangeUsernameRequest, active_user: ID = Depends(get_active_user)):
     success = await user_service.change_username(active_user, username.new_username)
     if not success:
         return failed_response.response()
     return success_response.response()
 
 
-change_password_success = JDR(status.HTTP_200_OK, 'Change password success', schemas.auth.Token)
+change_password_success = JDR(status.HTTP_200_OK, 'Change password success', models.auth.Token)
 @router.patch('/me/password', **create_documentation([change_password_success, failed_response]))
-async def change_password(passwords: schemas.user.ChangePasswordRequest, active_user: ID = Depends(get_active_user)):
+async def change_password(passwords: models.user.ChangePasswordRequest, active_user: ID = Depends(get_active_user)):
     success = await user_service.change_password(active_user, passwords.old_password, passwords.new_password)
     if not success:
         return failed_response.response()
     return change_password_success.response(create_access_token(active_user))
 
 
-change_profile_picture_success = JDR(status.HTTP_200_OK, 'Change profile picture success', schemas.user.ProfilePictureId)
+change_profile_picture_success = JDR(status.HTTP_200_OK, 'Change profile picture success', models.user.ProfilePictureId)
 @router.patch('/me/profile-picture', **create_documentation([change_profile_picture_success, failed_response]))
 async def change_profile_picture(profile_picture: UploadFile, active_user: ID = Depends(get_active_user)):
     media_id, path = await user_service.change_profile_picture(active_user)
     await upload_file(profile_picture, path)
-    return change_profile_picture_success.response(schemas.user.ProfilePictureId(id=media_id))
+    return change_profile_picture_success.response(models.user.ProfilePictureId(id=media_id))
 
 @router.patch('/me/bio', **create_documentation([success_response, failed_response]))
-async def change_bio(bio: schemas.user.ChangeBioRequest, active_user: ID = Depends(get_active_user)):
+async def change_bio(bio: models.user.ChangeBioRequest, active_user: ID = Depends(get_active_user)):
     await user_service.change_bio(active_user, bio.bio)
     return success_response.response()

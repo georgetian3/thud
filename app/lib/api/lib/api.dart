@@ -33,9 +33,6 @@ part 'api/content_api.dart';
 part 'api/notification_api.dart';
 part 'api/users_api.dart';
 
-part 'model/body_change_profile_picture_users_me_profile_picture_patch.dart';
-part 'model/body_login_login_post.dart';
-part 'model/body_put_media_media_media_id_put.dart';
 part 'model/change_bio_request.dart';
 part 'model/change_password_request.dart';
 part 'model/change_username_request.dart';

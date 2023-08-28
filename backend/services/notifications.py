@@ -1,9 +1,9 @@
 import models.content
 import models.db
 from models.base import *
-import schemas.notification
+import models.notification
 from datetime import datetime
-from schemas.base import ID
+from models.base import ID
 
 class NotificationService:
 
@@ -38,16 +38,16 @@ class NotificationService:
             await session.execute(stmt)
             await session.commit()
 
-    async def get_notifications(self, user: ID) -> schemas.notification.Notifications:
+    async def get_notifications(self, user: ID) -> models.notification.Notifications:
         stmt = select(models.content.Notification).where(
             models.content.Notification.receiver == user
         )
         async with self.db.get_session() as session:
             notifications = (await session.scalars(stmt)).all()
 
-        return schemas.notification.Notifications(
+        return models.notification.Notifications(
             notifications=[
-                schemas.notification.Notification(
+                models.notification.Notification(
                     id=notification.id,
                     sender=notification.sender,
                     type=notification.type,

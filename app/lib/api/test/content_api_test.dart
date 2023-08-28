@@ -38,13 +38,6 @@ void main() {
       // TODO
     });
 
-    // Get Media
-    //
-    //Future<Object> getMediaMediaMediaIdGet_0(Object mediaId) async
-    test('test getMediaMediaMediaIdGet_0', () async {
-      // TODO
-    });
-
     // Get Post
     //
     //Future<Post> getPostPostsPostIdGet(Object postId) async

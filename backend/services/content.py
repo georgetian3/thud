@@ -3,9 +3,9 @@ import models.content
 import models.user
 import models.db
 from models.base import *
-import schemas.content
+import models.content
 from datetime import datetime
-from schemas.base import ID
+from models.base import ID
 import pathlib
 from services.user import UserService
 from services.notifications import NotificationService
@@ -27,7 +27,7 @@ class ContentService:
 
     async def create_post(self,
         user_id: int,
-        new_post: schemas.content.CreatePostRequest,
+        new_post: models.content.CreatePostRequest,
     ) -> str | None:
 
         post = models.content.Post(
@@ -71,7 +71,7 @@ class ContentService:
 
         return post_id, {x.media for x in media}
     
-    async def create_comment(self, user_id: ID, post_id: ID, comment: schemas.content.CreateCommentRequest) -> schemas.content.Comment | None:
+    async def create_comment(self, user_id: ID, post_id: ID, comment: models.content.CreateCommentRequest) -> models.content.Comment | None:
         comment = models.content.Comment(
             creator=user_id,
             post=post_id,
@@ -97,7 +97,7 @@ class ContentService:
             content=post_id,
         )
             
-        return schemas.content.Comment(
+        return models.content.Comment(
             id=comment.id,
             creator=comment.creator,
             content=comment.content,
@@ -106,7 +106,7 @@ class ContentService:
 
 
 
-    async def get_post(self, post_id: ID) -> schemas.content.Post | None:
+    async def get_post(self, post_id: ID) -> models.content.Post | None:
         post_stmt = select(models.content.Post).where(models.content.Post.id == post_id)
         comment_stmt = select(models.content.Comment).where(models.content.Comment.post == post_id)
         tag_stmt = select(models.content.Tag.tag).where(models.content.Tag.post == post_id)
@@ -124,7 +124,7 @@ class ContentService:
             savers = (await session.scalars(save_stmt)).all()
             media = (await session.scalars(media_stmt)).all()
 
-        return schemas.content.Post(
+        return models.content.Post(
             id=post_id,
             creator=post.creator,
             title=post.title,
@@ -133,7 +133,7 @@ class ContentService:
             date_created=post.date_created,
             tags=tags,
             comments=[
-                schemas.content.Comment(
+                models.content.Comment(
                     id=comment.id,
                     creator=comment.creator,
                     content=comment.content,
@@ -148,8 +148,8 @@ class ContentService:
 
     async def search_posts(self,
         user_id: ID,
-        query: schemas.content.SearchContentRequest
-    ) -> list[schemas.content.Post]:
+        query: models.content.SearchContentRequest
+    ) -> list[models.content.Post]:
         
         print('query')
         print(query)
@@ -210,7 +210,7 @@ class ContentService:
             ):
                 filtered_posts.append(post)
 
-        def calculate_hotness(post: schemas.content.Post) -> float:
+        def calculate_hotness(post: models.content.Post) -> float:
             return 7 / max(1, (datetime.utcnow() - post.date_created).days) + \
                 len(post.likers) + 5 * len(post.savers) + 5 * len(post.comments)
         
